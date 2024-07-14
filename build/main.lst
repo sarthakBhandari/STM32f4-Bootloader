@@ -1,0 +1,373 @@
+ARM GAS  /tmp/cc6z8CwA.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/main.c"
+  20              		.section	.text.get_ticks,"ax",%progbits
+  21              		.align	1
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	get_ticks:
+  27              	.LFB4:
+   1:Core/Src/main.c **** #include <stdio.h>
+   2:Core/Src/main.c **** #include <libopencm3/stm32/rcc.h>
+   3:Core/Src/main.c **** #include <libopencm3/stm32/gpio.h>
+   4:Core/Src/main.c **** #include <libopencm3/cm3/systick.h>
+   5:Core/Src/main.c **** #include <libopencm3/cm3/vector.h>
+   6:Core/Src/main.c **** 
+   7:Core/Src/main.c **** #define LED_PORT (GPIOA)
+   8:Core/Src/main.c **** #define LED_PIN (GPIO5)
+   9:Core/Src/main.c **** 
+  10:Core/Src/main.c **** #define SYSTICK_FREQ (1000)
+  11:Core/Src/main.c **** #define CPU_FREQ (84000000)
+  12:Core/Src/main.c **** 
+  13:Core/Src/main.c **** volatile uint64_t ticks = 0;
+  14:Core/Src/main.c **** void sys_tick_handler(void){
+  15:Core/Src/main.c ****     // this is 64 bit operation on 32 bit cpu
+  16:Core/Src/main.c ****     // so this will more than 1 operation to complete
+  17:Core/Src/main.c ****     // this means that another interrupt could happen in the middle of this operation
+  18:Core/Src/main.c ****     // you can handle this be disabling other interrupts
+  19:Core/Src/main.c ****     ticks++;
+  20:Core/Src/main.c **** }
+  21:Core/Src/main.c **** 
+  22:Core/Src/main.c **** static uint64_t get_ticks(void){
+  28              		.loc 1 22 32 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  23:Core/Src/main.c ****     return ticks;
+  33              		.loc 1 23 5 view .LVU1
+  24:Core/Src/main.c **** }
+  34              		.loc 1 24 1 is_stmt 0 view .LVU2
+ARM GAS  /tmp/cc6z8CwA.s 			page 2
+
+
+  35 0000 014B     		ldr	r3, .L2
+  36 0002 D3E90001 		ldrd	r0, [r3]
+  37 0006 7047     		bx	lr
+  38              	.L3:
+  39              		.align	2
+  40              	.L2:
+  41 0008 00000000 		.word	ticks
+  42              		.cfi_endproc
+  43              	.LFE4:
+  45              		.section	.text.rcc_setup,"ax",%progbits
+  46              		.align	1
+  47              		.syntax unified
+  48              		.thumb
+  49              		.thumb_func
+  51              	rcc_setup:
+  52              	.LFB5:
+  25:Core/Src/main.c **** 
+  26:Core/Src/main.c **** static void rcc_setup(void){
+  53              		.loc 1 26 28 is_stmt 1 view -0
+  54              		.cfi_startproc
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 0, uses_anonymous_args = 0
+  57 0000 08B5     		push	{r3, lr}
+  58              	.LCFI0:
+  59              		.cfi_def_cfa_offset 8
+  60              		.cfi_offset 3, -8
+  61              		.cfi_offset 14, -4
+  27:Core/Src/main.c ****     rcc_periph_clock_enable(RCC_GPIOA);
+  62              		.loc 1 27 5 view .LVU4
+  63 0002 4FF4C060 		mov	r0, #1536
+  64 0006 FFF7FEFF 		bl	rcc_periph_clock_enable
+  65              	.LVL0:
+  28:Core/Src/main.c ****     rcc_clock_setup_pll(&rcc_hsi_configs[RCC_CLOCK_3V3_84MHZ]);
+  66              		.loc 1 28 5 view .LVU5
+  67 000a 0248     		ldr	r0, .L6
+  68 000c FFF7FEFF 		bl	rcc_clock_setup_pll
+  69              	.LVL1:
+  29:Core/Src/main.c **** }
+  70              		.loc 1 29 1 is_stmt 0 view .LVU6
+  71 0010 08BD     		pop	{r3, pc}
+  72              	.L7:
+  73 0012 00BF     		.align	2
+  74              	.L6:
+  75 0014 00000000 		.word	rcc_hsi_configs
+  76              		.cfi_endproc
+  77              	.LFE5:
+  79              		.section	.text.gpio_setup,"ax",%progbits
+  80              		.align	1
+  81              		.syntax unified
+  82              		.thumb
+  83              		.thumb_func
+  85              	gpio_setup:
+  86              	.LFB6:
+  30:Core/Src/main.c **** 
+  31:Core/Src/main.c **** static void gpio_setup(void){
+  87              		.loc 1 31 29 is_stmt 1 view -0
+  88              		.cfi_startproc
+ARM GAS  /tmp/cc6z8CwA.s 			page 3
+
+
+  89              		@ args = 0, pretend = 0, frame = 0
+  90              		@ frame_needed = 0, uses_anonymous_args = 0
+  91 0000 08B5     		push	{r3, lr}
+  92              	.LCFI1:
+  93              		.cfi_def_cfa_offset 8
+  94              		.cfi_offset 3, -8
+  95              		.cfi_offset 14, -4
+  32:Core/Src/main.c ****     gpio_mode_setup(LED_PORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LED_PIN);
+  96              		.loc 1 32 5 view .LVU8
+  97 0002 2023     		movs	r3, #32
+  98 0004 0022     		movs	r2, #0
+  99 0006 0121     		movs	r1, #1
+ 100 0008 0148     		ldr	r0, .L10
+ 101 000a FFF7FEFF 		bl	gpio_mode_setup
+ 102              	.LVL2:
+  33:Core/Src/main.c **** }
+ 103              		.loc 1 33 1 is_stmt 0 view .LVU9
+ 104 000e 08BD     		pop	{r3, pc}
+ 105              	.L11:
+ 106              		.align	2
+ 107              	.L10:
+ 108 0010 00000240 		.word	1073872896
+ 109              		.cfi_endproc
+ 110              	.LFE6:
+ 112              		.section	.text.systick_setup,"ax",%progbits
+ 113              		.align	1
+ 114              		.syntax unified
+ 115              		.thumb
+ 116              		.thumb_func
+ 118              	systick_setup:
+ 119              	.LFB7:
+  34:Core/Src/main.c **** 
+  35:Core/Src/main.c **** static void systick_setup(void){
+ 120              		.loc 1 35 32 is_stmt 1 view -0
+ 121              		.cfi_startproc
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ 124 0000 08B5     		push	{r3, lr}
+ 125              	.LCFI2:
+ 126              		.cfi_def_cfa_offset 8
+ 127              		.cfi_offset 3, -8
+ 128              		.cfi_offset 14, -4
+  36:Core/Src/main.c ****     systick_set_frequency(SYSTICK_FREQ, CPU_FREQ);
+ 129              		.loc 1 36 5 view .LVU11
+ 130 0002 0549     		ldr	r1, .L14
+ 131 0004 4FF47A70 		mov	r0, #1000
+ 132 0008 FFF7FEFF 		bl	systick_set_frequency
+ 133              	.LVL3:
+  37:Core/Src/main.c ****     systick_counter_enable();
+ 134              		.loc 1 37 5 view .LVU12
+ 135 000c FFF7FEFF 		bl	systick_counter_enable
+ 136              	.LVL4:
+  38:Core/Src/main.c ****     systick_interrupt_enable();
+ 137              		.loc 1 38 5 view .LVU13
+ 138 0010 FFF7FEFF 		bl	systick_interrupt_enable
+ 139              	.LVL5:
+  39:Core/Src/main.c **** }
+ARM GAS  /tmp/cc6z8CwA.s 			page 4
+
+
+ 140              		.loc 1 39 1 is_stmt 0 view .LVU14
+ 141 0014 08BD     		pop	{r3, pc}
+ 142              	.L15:
+ 143 0016 00BF     		.align	2
+ 144              	.L14:
+ 145 0018 00BD0105 		.word	84000000
+ 146              		.cfi_endproc
+ 147              	.LFE7:
+ 149              		.section	.text.sys_tick_handler,"ax",%progbits
+ 150              		.align	1
+ 151              		.global	sys_tick_handler
+ 152              		.syntax unified
+ 153              		.thumb
+ 154              		.thumb_func
+ 156              	sys_tick_handler:
+ 157              	.LFB3:
+  14:Core/Src/main.c ****     // this is 64 bit operation on 32 bit cpu
+ 158              		.loc 1 14 28 is_stmt 1 view -0
+ 159              		.cfi_startproc
+ 160              		@ args = 0, pretend = 0, frame = 0
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162              		@ link register save eliminated.
+ 163 0000 10B4     		push	{r4}
+ 164              	.LCFI3:
+ 165              		.cfi_def_cfa_offset 4
+ 166              		.cfi_offset 4, -4
+  19:Core/Src/main.c **** }
+ 167              		.loc 1 19 5 view .LVU16
+  19:Core/Src/main.c **** }
+ 168              		.loc 1 19 10 is_stmt 0 view .LVU17
+ 169 0002 054C     		ldr	r4, .L18
+ 170 0004 D4E90023 		ldrd	r2, [r4]
+ 171 0008 501C     		adds	r0, r2, #1
+ 172 000a 43F10001 		adc	r1, r3, #0
+ 173 000e C4E90001 		strd	r0, [r4]
+  20:Core/Src/main.c **** 
+ 174              		.loc 1 20 1 view .LVU18
+ 175 0012 5DF8044B 		ldr	r4, [sp], #4
+ 176              	.LCFI4:
+ 177              		.cfi_restore 4
+ 178              		.cfi_def_cfa_offset 0
+ 179 0016 7047     		bx	lr
+ 180              	.L19:
+ 181              		.align	2
+ 182              	.L18:
+ 183 0018 00000000 		.word	ticks
+ 184              		.cfi_endproc
+ 185              	.LFE3:
+ 187              		.section	.text.main,"ax",%progbits
+ 188              		.align	1
+ 189              		.global	main
+ 190              		.syntax unified
+ 191              		.thumb
+ 192              		.thumb_func
+ 194              	main:
+ 195              	.LFB8:
+  40:Core/Src/main.c **** 
+ARM GAS  /tmp/cc6z8CwA.s 			page 5
+
+
+  41:Core/Src/main.c **** // static void delay_cycles(uint32_t cycles){
+  42:Core/Src/main.c **** //     for (uint32_t i = 0; i < cycles; i++){
+  43:Core/Src/main.c **** //         __asm__("nop");
+  44:Core/Src/main.c **** //     }
+  45:Core/Src/main.c **** // }
+  46:Core/Src/main.c **** 
+  47:Core/Src/main.c **** int main(void){
+ 196              		.loc 1 47 15 is_stmt 1 view -0
+ 197              		.cfi_startproc
+ 198              		@ Volatile: function does not return.
+ 199              		@ args = 0, pretend = 0, frame = 8
+ 200              		@ frame_needed = 0, uses_anonymous_args = 0
+ 201 0000 00B5     		push	{lr}
+ 202              	.LCFI5:
+ 203              		.cfi_def_cfa_offset 4
+ 204              		.cfi_offset 14, -4
+ 205 0002 83B0     		sub	sp, sp, #12
+ 206              	.LCFI6:
+ 207              		.cfi_def_cfa_offset 16
+  48:Core/Src/main.c ****     rcc_setup();
+ 208              		.loc 1 48 5 view .LVU20
+ 209 0004 FFF7FEFF 		bl	rcc_setup
+ 210              	.LVL6:
+  49:Core/Src/main.c ****     gpio_setup();
+ 211              		.loc 1 49 5 view .LVU21
+ 212 0008 FFF7FEFF 		bl	gpio_setup
+ 213              	.LVL7:
+  50:Core/Src/main.c ****     systick_setup();
+ 214              		.loc 1 50 5 view .LVU22
+ 215 000c FFF7FEFF 		bl	systick_setup
+ 216              	.LVL8:
+  51:Core/Src/main.c **** 
+  52:Core/Src/main.c ****     volatile uint64_t start_time = get_ticks();
+ 217              		.loc 1 52 5 view .LVU23
+ 218              		.loc 1 52 36 is_stmt 0 view .LVU24
+ 219 0010 FFF7FEFF 		bl	get_ticks
+ 220              	.LVL9:
+ 221              		.loc 1 52 23 discriminator 1 view .LVU25
+ 222 0014 CDE90001 		strd	r0, [sp]
+ 223              	.L21:
+  53:Core/Src/main.c **** 
+  54:Core/Src/main.c ****     while (1){
+ 224              		.loc 1 54 5 is_stmt 1 view .LVU26
+  55:Core/Src/main.c ****         if (get_ticks() - start_time >= 1000){
+ 225              		.loc 1 55 9 view .LVU27
+ 226              		.loc 1 55 13 is_stmt 0 view .LVU28
+ 227 0018 FFF7FEFF 		bl	get_ticks
+ 228              	.LVL10:
+ 229              		.loc 1 55 25 discriminator 1 view .LVU29
+ 230 001c DDE90023 		ldrd	r2, [sp]
+ 231 0020 801A     		subs	r0, r0, r2
+ 232 0022 61EB0301 		sbc	r1, r1, r3
+ 233              		.loc 1 55 12 discriminator 1 view .LVU30
+ 234 0026 B0F57A7F 		cmp	r0, #1000
+ 235 002a 71F10001 		sbcs	r1, r1, #0
+ 236 002e F3D3     		bcc	.L21
+  56:Core/Src/main.c ****             gpio_toggle(LED_PORT, LED_PIN);
+ARM GAS  /tmp/cc6z8CwA.s 			page 6
+
+
+ 237              		.loc 1 56 13 is_stmt 1 view .LVU31
+ 238 0030 2021     		movs	r1, #32
+ 239 0032 0448     		ldr	r0, .L24
+ 240 0034 FFF7FEFF 		bl	gpio_toggle
+ 241              	.LVL11:
+  57:Core/Src/main.c ****             start_time = get_ticks();
+ 242              		.loc 1 57 13 view .LVU32
+ 243              		.loc 1 57 26 is_stmt 0 view .LVU33
+ 244 0038 FFF7FEFF 		bl	get_ticks
+ 245              	.LVL12:
+ 246              		.loc 1 57 24 discriminator 1 view .LVU34
+ 247 003c CDE90001 		strd	r0, [sp]
+ 248 0040 EAE7     		b	.L21
+ 249              	.L25:
+ 250 0042 00BF     		.align	2
+ 251              	.L24:
+ 252 0044 00000240 		.word	1073872896
+ 253              		.cfi_endproc
+ 254              	.LFE8:
+ 256              		.global	ticks
+ 257              		.section	.bss.ticks,"aw",%nobits
+ 258              		.align	3
+ 261              	ticks:
+ 262 0000 00000000 		.space	8
+ 262      00000000 
+ 263              		.text
+ 264              	.Letext0:
+ 265              		.file 2 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 266              		.file 3 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 267              		.file 4 "libopencm3/include/libopencm3/stm32/f4/pwr.h"
+ 268              		.file 5 "libopencm3/include/libopencm3/stm32/f4/rcc.h"
+ 269              		.file 6 "libopencm3/include/libopencm3/cm3/systick.h"
+ 270              		.file 7 "libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h"
+ 271              		.file 8 "libopencm3/include/libopencm3/stm32/common/rcc_common_all.h"
+ 272              		.file 9 "libopencm3/include/libopencm3/stm32/common/gpio_common_all.h"
+ARM GAS  /tmp/cc6z8CwA.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+     /tmp/cc6z8CwA.s:21     .text.get_ticks:00000000 $t
+     /tmp/cc6z8CwA.s:26     .text.get_ticks:00000000 get_ticks
+     /tmp/cc6z8CwA.s:41     .text.get_ticks:00000008 $d
+     /tmp/cc6z8CwA.s:261    .bss.ticks:00000000 ticks
+     /tmp/cc6z8CwA.s:46     .text.rcc_setup:00000000 $t
+     /tmp/cc6z8CwA.s:51     .text.rcc_setup:00000000 rcc_setup
+     /tmp/cc6z8CwA.s:75     .text.rcc_setup:00000014 $d
+     /tmp/cc6z8CwA.s:80     .text.gpio_setup:00000000 $t
+     /tmp/cc6z8CwA.s:85     .text.gpio_setup:00000000 gpio_setup
+     /tmp/cc6z8CwA.s:108    .text.gpio_setup:00000010 $d
+     /tmp/cc6z8CwA.s:113    .text.systick_setup:00000000 $t
+     /tmp/cc6z8CwA.s:118    .text.systick_setup:00000000 systick_setup
+     /tmp/cc6z8CwA.s:145    .text.systick_setup:00000018 $d
+     /tmp/cc6z8CwA.s:150    .text.sys_tick_handler:00000000 $t
+     /tmp/cc6z8CwA.s:156    .text.sys_tick_handler:00000000 sys_tick_handler
+     /tmp/cc6z8CwA.s:183    .text.sys_tick_handler:00000018 $d
+     /tmp/cc6z8CwA.s:188    .text.main:00000000 $t
+     /tmp/cc6z8CwA.s:194    .text.main:00000000 main
+     /tmp/cc6z8CwA.s:252    .text.main:00000044 $d
+     /tmp/cc6z8CwA.s:258    .bss.ticks:00000000 $d
+
+UNDEFINED SYMBOLS
+rcc_periph_clock_enable
+rcc_clock_setup_pll
+rcc_hsi_configs
+gpio_mode_setup
+systick_set_frequency
+systick_counter_enable
+systick_interrupt_enable
+gpio_toggle

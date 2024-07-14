@@ -1,0 +1,20 @@
+{
+    "C_Cpp.files.exclude": {
+
+
+
+        "**/.vscode": true,
+        "**/.vs": true
+    },
+    "files.associations": {
+        "main.h": "c",
+        "stm32f4xx_hal.h": "c",
+        "rcc.h": "c",
+        "gpio.h": "c",
+        "gpio_common_f234.h": "c",
+        "stdio.h": "c",
+        "vector.h": "c"
+    },
+    "cortex-debug.gdbPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb",
+    "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi/bin"
+}
