@@ -11,7 +11,7 @@
 #define CPU_FREQ (84000000)
 
 volatile uint64_t ticks = 0;
-void sys_tick_handler(void){
+void SysTick_Handler(void){
     // this is 64 bit operation on 32 bit cpu
     // so this will more than 1 operation to complete
     // this means that another interrupt could happen in the middle of this operation
