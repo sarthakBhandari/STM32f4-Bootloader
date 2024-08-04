@@ -13,7 +13,14 @@
         "gpio.h": "c",
         "gpio_common_f234.h": "c",
         "stdio.h": "c",
-        "vector.h": "c"
+        "vector.h": "c",
+        "stdint.h": "c",
+        "systick.h": "c",
+        "timer_common_all.h": "c",
+        "timer_setup.h": "c",
+        "timer.h": "c",
+        "common-defines.h": "c",
+        "timer_common_f24.h": "c"
     },
     "cortex-debug.gdbPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb",
     "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi/bin"

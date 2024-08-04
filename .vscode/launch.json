@@ -6,8 +6,8 @@
     "configurations": [
         {
             "name": "ST-LINK: Debug Application",
-            "cwd": "${workspaceFolder}",
-            "executable": "./build/stm32_init.elf",
+            "cwd": "${workspaceFolder}/app",
+            "executable": "./firmware.elf",
             "request": "launch",
             "type": "cortex-debug",
             "device": "STM32F446RE",
