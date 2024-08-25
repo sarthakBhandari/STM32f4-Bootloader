@@ -4,7 +4,7 @@ OPENCM3_DIR = ../libopencm3
 
 # BUILD_DIR = build
 # TARGET = stm32f4
-BINARY = firmware
+BINARY = bootloader
 
 ###############################################################################
 # Basic Device Setup
@@ -50,8 +50,6 @@ CSTD		?= -std=c99
 # Source files
 
 OBJS		+= $(SRC_DIR)/$(BINARY).o
-OBJS		+= $(SRC_DIR)/core/system.o
-OBJS		+= $(SRC_DIR)/core/timer.o
 
 ###############################################################################
 # C flags
