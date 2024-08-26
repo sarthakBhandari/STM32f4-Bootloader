@@ -1,4 +1,5 @@
 #include <libopencm3/stm32/gpio.h>
+#include <libopencm3/cm3/scb.h>
 
 #include "core/system.h"
 #include "core/timer.h"
@@ -6,12 +7,19 @@
 #define LED_PORT (GPIOA)
 #define LED_PIN (GPIO5)
 
+#define BOOTLOADER_SIZE (0X8000U);
+
+static void vector_setup(void){
+    SCB_VTOR = BOOTLOADER_SIZE;
+}
+
 static void gpio_setup(void){
     gpio_mode_setup(LED_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, LED_PIN);
     gpio_set_af(LED_PORT, GPIO_AF1, LED_PIN);
 }
 
 int main(void){
+    vector_setup();
     system_setup();
     gpio_setup();
     timer_setup();

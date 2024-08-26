@@ -20,7 +20,9 @@
         "timer_setup.h": "c",
         "timer.h": "c",
         "common-defines.h": "c",
-        "timer_common_f24.h": "c"
+        "timer_common_f24.h": "c",
+        "memorymap.h": "c",
+        "scb.h": "c"
     },
     "cortex-debug.gdbPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb",
     "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi/bin"
