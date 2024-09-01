@@ -22,7 +22,14 @@
         "common-defines.h": "c",
         "timer_common_f24.h": "c",
         "memorymap.h": "c",
-        "scb.h": "c"
+        "scb.h": "c",
+        "system.h": "c",
+        "usart.h": "c",
+        "usart_common_f24.h": "c",
+        "usart_common_f124.h": "c",
+        "usart_common_all.h": "c",
+        "nvic.h": "c",
+        "uart.h": "c"
     },
     "cortex-debug.gdbPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb",
     "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi/bin"
