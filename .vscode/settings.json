@@ -29,7 +29,9 @@
         "usart_common_f124.h": "c",
         "usart_common_all.h": "c",
         "nvic.h": "c",
-        "uart.h": "c"
+        "uart.h": "c",
+        "ring_buffer.h": "c",
+        "ring-buffer.h": "c"
     },
     "cortex-debug.gdbPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb",
     "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi/bin"
