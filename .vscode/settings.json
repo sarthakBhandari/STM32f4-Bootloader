@@ -31,7 +31,11 @@
         "nvic.h": "c",
         "uart.h": "c",
         "ring_buffer.h": "c",
-        "ring-buffer.h": "c"
+        "ring-buffer.h": "c",
+        "crc8.h": "c",
+        "crc.h": "c",
+        "assert.h": "c",
+        "comms.h": "c"
     },
     "cortex-debug.gdbPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gdb",
     "cortex-debug.armToolchainPath": "/opt/gcc-arm-none-eabi/bin"

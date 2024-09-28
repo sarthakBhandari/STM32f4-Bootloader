@@ -1,9 +1,9 @@
 SRC_DIR = src
 INC_DIR = inc
+SHARED_SRC_DIR = ../shared/src
+SHARED_INC_DIR = ../shared/inc
 OPENCM3_DIR = ../libopencm3
 
-# BUILD_DIR = build
-# TARGET = stm32f4
 BINARY = bootloader
 
 ###############################################################################
@@ -26,6 +26,7 @@ LDFLAGS		+= -L$(OPENCM3_DIR)/lib
 
 DEFS		+= -I$(OPENCM3_DIR)/include
 DEFS		+= -I$(INC_DIR)
+DEFS		+= -I$(SHARED_INC_DIR)
 
 ###############################################################################
 # Executables
@@ -50,6 +51,10 @@ CSTD		?= -std=c99
 # Source files
 
 OBJS		+= $(SRC_DIR)/$(BINARY).o
+OBJS		+= $(SRC_DIR)/comms.o
+OBJS		+= $(SHARED_SRC_DIR)/core/crc8.o
+OBJS		+= $(SHARED_SRC_DIR)/core/ring-buffer.o
+OBJS		+= $(SHARED_SRC_DIR)/core/uart.o
 
 ###############################################################################
 # C flags

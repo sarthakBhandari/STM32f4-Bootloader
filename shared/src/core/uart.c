@@ -9,7 +9,7 @@
 #define RING_BUFFER_SIZE    (128) // 11520/100 if we there is a 10ms latency in our code, rounded to nearest power of 2 
 
 static ring_buffer_t rb = {0U};
-static uint8_t data[RING_BUFFER_SIZE] = {0U};
+static uint8_t data_buffer[RING_BUFFER_SIZE] = {0U};
 
 void usart2_isr(void){
     const bool overrun_occured = usart_get_flag(USART2, USART_FLAG_ORE);
@@ -23,7 +23,7 @@ void usart2_isr(void){
 }
 
 void uart_setup(void){
-    ring_buffer_setup(&rb, data, RING_BUFFER_SIZE);
+    ring_buffer_setup(&rb, data_buffer, RING_BUFFER_SIZE);
     
     rcc_periph_clock_enable(RCC_USART2);
 

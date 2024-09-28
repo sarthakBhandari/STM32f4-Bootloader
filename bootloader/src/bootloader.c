@@ -5,7 +5,7 @@
 #define BOOTLOADER_SIZE        (0X8000U)
 #define MAIN_APP_START_ADDRESS (FLASH_BASE + BOOTLOADER_SIZE)
 
-void jump_to_main(void){
+static void jump_to_main(void){
     vector_table_t* main_vector_table = (vector_table_t*)(MAIN_APP_START_ADDRESS);
     main_vector_table->reset();
 }
